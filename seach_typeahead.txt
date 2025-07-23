@@ -1,0 +1,81 @@
+Search Type-ahead
+
+Typeaheads refers to the suggestions that come up automatically as we search for something.
+
+Functional requirement/MVP:
+	1.	Number of suggestions to display: 5
+	2.	Minimum character should be type to show suggestion: 3
+	3. 	Strict prefix, i.e if “abc” is type then 5 suggestions with with “abc” as prefix will be shown
+	4.	Don’t bother about special characters
+
+	Extras:
+	1.	How to prioritize the suggestions?
+		Based on popularity -> How frequently do people search for that search phrase
+
+Non functional requirements:
+	1.	Read heavy or write heavy? —> Both read and write heavy
+	2.	Sharding? —> Yes
+	3.	Availability or Consistency? —> Availability (Latency of getting suggestions should be super low - you are competing with typing speed)
+	4. 	Replication?
+
+
+Estimation:
+	Let’s assume, no. of search queries lands in google per days: 10B
+	10% of 10B is new term —> 1B new queries per day
+	Average size of each query: 25 characters —> 40*1‎ = 40bytes per query —> 1B * 40 bytes = 40*10^9 ‎ = 40,00,00,00,000bytes = 40GB
+
+	40GB per days -> 40 * 365 ‎ = 14,600GB per year ~ 15TB/year = 150TB in 10 years —> SHARDING IS NEEDED
+
+	
+
+	Assumed, 10B search happens every day out of that 1B is new terms
+	Total WRITE = 10B
+		Each query has to update its frequency, hence write happens in each query
+	
+	Each query displays 5 suggestions, so total READ = 5*10B = 50B
+	
+	Write:Read = 1:6 —> Read heavy system, but WRITE is substantially heavy and can’t be ignored. If we consider this system is Read heavy then write operations are almost ignored, but write is very high so can’t ignore it —> READ AND WRITE HEAVY
+
+
+APIs:
+	1.	GET		/getSuggestions?prefix=“mic”
+	2.	PUT		/updateFrequency?term="michael Jordan”
+
+
+Design:
+	Approach 1: Use Trie
+		a. 	READ —> /getSuggestions —> Trie will be huge and if we traverse trie to fetch top 5 suggestions then it will take time, but we want very low latency system. To avoid the trie traversal every time, we can store the top 5 suggestions at each node
+
+		b.	WRITE —> /updateFrequency —> Every time frequency is updated for a term, all the nodes from root to node with term has to be considered for update
+							
+
+	Approach 2: Hash Map
+		Maintain 2 Hash maps, lets say Frequency(store frequency of each term) and Top5Suggestions(store top 5 suggestions for each possible prefix)
+		a. 	READ —> /getSuggestions —> Fetch value from Top5Suggestions for key=prefix
+
+		b.	WRITE —> /updateFrequency —> When a frequency is updated for a term, then Top5Suggestions for each prefix of term need to be updated
+
+	
+		In above 2 approached Read is fast but write requires a lot of background work. Those background word can happen asynchronously. But the issue is 10B write is happening every days across several shards and on top of that performing such heavy write operations across shards for each search is not efficient. Need to reduce the write operations
+
+
+	Approach 3: Threshold
+		Above discussed both the approaches are fine, but the only is write.
+
+		Lets have a separate hash map (for approach1, as approach2 already has Frequency map) to store the frequency of each term and update the trie or Top5Suggestions map only if frequency of that term crosses a certain threshold lets say 1000. Because we don’t care if frequency count increases by 10, 20. Once frequency of the term crosses the threshold update tries/Top5Suggestions and set that term frequency as 0
+
+		Concerned about HashMap size or memory?
+		New entry in Frequency map is fed only when new term is search, otherwise only frequency of existing term is updated. 
+		1B new terms per day, and each term size is ~40bytes, that means 1B *40 bytes = 40GB and it can easily stored in a single machine. If still concerned about the memory, then we can flush the hash map every 24 hours
+
+
+Sharding:
+Sharding Key: First 3 characters
+
+At the 3rd level of trie, we’ll have 26*26*26‎ = 17,576 subtries or branches, containing prefix terms “aaa”, “aab”, “aac”, and so on. If we consider separate shard for each prefix like separate for aaa, aab, aac … then we’ll have 17576 shards.
+But this will disproportionate the load, because aaa or xxx will be much lesser search terms as compared to others. To avoid this we can club few of the prefixes together in a shard. 
+Consistent Hashing code will map to the correct shard by using the first three characters of the search term.
+
+
+How to add recency factor in prioritizing the suggestions?
+	Add something called Time Decay Factor(TDF). Everyday each entry in Frequency update value as value/TDF. 	According to this approach, if a search term becomes less popular, it eventually gets kicked out of the system
