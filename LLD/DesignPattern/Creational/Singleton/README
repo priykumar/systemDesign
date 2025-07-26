@@ -1,0 +1,13 @@
+Singleton is a creational design pattern, which ensures that only one object of its kind exists and provides a single point of access to it for any other code
+
+When?
+    1.  Only single object needs to be created for all clients
+
+How to implement?
+    1.  Create a struct and a method named getInstance(). method will always return the struct(is nil then create a new one).
+        This works fine in sequential environment but fails in multi-threaded env, as multiple threads can pass the nil check
+    2.  For multi-threaded env, an extra nil check must be present with a lock between 2 nil checks
+            nil check -> lock -> nil check -> unlock
+
+Why?
+    1. Creation of object is expensive and only one object is sufficient
