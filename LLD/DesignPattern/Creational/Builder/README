@@ -1,0 +1,33 @@
+Definition:
+    Builder is a design pattern that helps create complex objects step by step, instead of using a big constructor.
+
+When to Use?
+    1. When an object has many optional or configurable fields.
+    2. When constructing an object step-by-step is clearer than a large constructor.
+    3. When you want to reuse the building logic to create different types or variations.
+
+How to Implement?
+    1. Create the main struct (e.g., Student).
+    2. Create a builder interface with chainable setter methods and a Build() method that returns the final object.
+    3. Implement the builder methods on the object or a separate builder struct.
+    4. Use method chaining to build the object in a readable, fluent way.
+
+    Example Steps:
+
+        type Builder interface {
+            SetX(x string) Builder
+            SetY(y int) Builder
+            Build() *MyStruct
+        }
+
+        // Build process
+        obj := NewBuilder().
+            SetX("foo").
+            SetY(42).
+            Build()
+
+Why Use Builder?
+    1. Makes object creation clean, readable, and flexible
+    2. Avoids constructors with too many arguments
+    3. Easy to extend or reuse building logic
+
