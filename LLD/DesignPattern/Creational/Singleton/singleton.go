@@ -1,4 +1,4 @@
-package main
+package singleton
 
 import (
 	"fmt"
@@ -18,9 +18,7 @@ type dbConnection struct {
 var mu = &sync.Mutex{}
 var dbClient *dbConnection
 
-func getInstance(url, user, pwd string, wg *sync.WaitGroup) *dbConnection {
-	defer wg.Done()
-
+func GetInstance(url, user, pwd string) *dbConnection {
 	if dbClient == nil {
 		mu.Lock()
 		defer mu.Unlock()
@@ -40,12 +38,14 @@ func getInstance(url, user, pwd string, wg *sync.WaitGroup) *dbConnection {
 	return dbClient
 }
 
-func main() {
+func SingletonDP() {
 	var wg sync.WaitGroup
 	for range 10 {
 		wg.Add(1)
-		go getInstance("url", "user1", "user123", &wg)
+		go func(wg *sync.WaitGroup) {
+			defer wg.Done()
+			GetInstance("url", "user1", "user123")
+		}(&wg)
 	}
-
 	wg.Wait()
 }
