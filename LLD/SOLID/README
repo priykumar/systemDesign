@@ -1,0 +1,27 @@
+# SOLID Principles in Go
+
+This directory demonstrates the SOLID principles using Go code examples. Each file contains both bad and good implementations to illustrate the concepts.
+
+- S: Single Responsibility Principle (SRP)
+  - A struct or function should have only one reason to change — it should do only one job
+
+- O: Open/Closed Principle (OCP)
+  - Software entities should be open for extension, but closed for modification
+
+- L: Liskov Substitution Principle (LSP)
+  - Subtypes must be substitutable for their base types.
+
+- I: Interface Segregation Principle (ISP)
+  - A client should not be forced to depend on interfaces it does not use.
+
+- D: Dependency Inversion Principle (DIP)
+  - High-level modules should not depend on low-level modules. Both should depend on abstractions.
+
+| Principle | Key Benefit                                  |
+| --------- | -------------------------------------------- |
+| S         | Simpler code, easier to test & change        |
+| O         | Add features without breaking existing code  |
+| L         | Safe to substitute different logic types     |
+| I         | Focused, lean interfaces for maintainability |
+| D         | Code is flexible and loosely coupled         |
+
