@@ -2,6 +2,7 @@ package builder
 
 import "fmt"
 
+// Here we build a complex onject step by step using setting ofr may be each field.
 type Builder interface {
 	SetName(name string) Builder
 	SetRollNo(rollNo int) Builder
