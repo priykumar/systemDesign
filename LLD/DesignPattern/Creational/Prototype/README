@@ -1,0 +1,12 @@
+Definition
+    Prototype design pattern allows you to clone existing objects instead of creating new ones from scratch. It is useful when object creation is expensive or when you want multiple similar objects.
+
+When to Use?
+    - When creating an object is expensive or complicated
+    - When you want to avoid repetitive configuration
+    - When you need many similar objects with small differences
+
+Real-World Analogy
+    > Imagine you have a standard admission form.  
+    > Instead of writing all details from scratch, you copy the form and fill in just the changes.  
+    > That’s what the Prototype pattern does — it clones a template.
