@@ -1,0 +1,21 @@
+Creational Design Pattern
+    -   How objects are created
+    -   Controlling what, when, and how objects are created
+        -   Singleton
+        -   Builder
+        -   Factory
+        -   Prototype
+
+Structural Design Pattern
+    -   How objects are composed or structured
+    -   How objects and classes are composed to form larger systems
+        -   Adaptor
+        -   Decorator
+        -   Flyweight
+        -   Facade
+
+Behavioural Design Pattern
+    -   How objects interact and communicate.
+    -   Managing communication and responsibilities between objects
+        -   Startegy
+        -   Observer
