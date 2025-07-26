@@ -1,0 +1,7 @@
+Definition:
+    The Adapter Pattern allows two incompatible interfaces to work together by acting as a bridge between them.
+    In this example, PhonePe integrates with different bank APIs (SBI, HDFC) that expose inconsistent interfaces. The Adapter pattern helps standardize access without changing the bank APIs
+
+
+Real-World Analogy:
+    A charging adapter allows your iPhone charger to plug into a power socket with a different shape — the adapter "translates" one interface to another.
