@@ -1,0 +1,15 @@
+Definition:
+    Factory pattern is like a machine (factory) that builds and gives you the right object based on what you ask for.
+    Instead of using `new` or `&Type{}`, you call a factory function like `NewDatabase("mysql")`.
+
+When to Use?
+    - When object creation logic is complex or repetitive
+    - When you want to hide the details of object creation
+
+Limitations
+    - Violates OCP: Adding a new database type requires modifying `NewDatabase()`
+
+Real-World Analogy
+    > You don’t make your coffee yourself.  
+    > You just tell the starbucks: “I want a Latte” → and they give it to you.  
+    > That’s the factory deciding what to make based on your input.
