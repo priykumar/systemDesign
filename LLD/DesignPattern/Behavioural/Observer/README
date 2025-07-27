@@ -1,0 +1,22 @@
+Definition:
+    -   The Observer Pattern is used when one object (Subject) needs to notify other objects (Observers) automatically when its state changes.
+
+How to Implement?:
+    1.  Create an Observer interface: This will be implemented by all entities (e.g., customers) who want to get updates.
+    2.  Create a Subject interface: This will be implemented by the main object being observed (e.g., product).
+    3.  Create concrete Observer classes: These implement the Update() method.
+    4.  Create concrete Subject class:
+        Maintains a list of observers (subscribers).
+        Provides methods to register/deregister observers.
+        Calls Update() on all observers when state changes.
+    5.  In main():
+        Create a product.
+        Add customers using Register().
+        Call SetInStock(true) to trigger notification to all registered customers.
+
+Real-World Analogy:
+    Flipkart Restock Alerts:
+        You click "Notify me when available" on an out-of-stock item.
+        When the item is back in stock, Flipkart automatically emails all interested customers.
+        Customers are observers. Product is the subject.
+
