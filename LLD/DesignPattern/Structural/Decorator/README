@@ -1,0 +1,27 @@
+Definition:
+    -   The Decorator Pattern allows you to add new behaviors to an object dynamically without altering its structure.
+
+Why?
+    -   You want to add features at runtime
+
+How to Implement?
+    1.  Create a common interface for the base object and decorators (pizzaInterface).
+    2.  Implement the base object (e.g. Pizza).
+    3.  Create structs for each addOns and each struct will have methods (step 1) defined
+    4.  All the addOns struct will have interface as an attrubute
+    5.  In main(), start with a base struct and assign an addOn object to interface attribute.
+
+    main() will look something like this
+    a := baseClass {
+        interfaceVar: &addOn1 {
+            interfaceVar: &add0n2 {
+                interfaceVar: &addOn3{}
+            }
+        }
+    }
+
+Real-World Analogy
+    -   Think of a coffee shop:
+        -   You order Plain Coffee
+        -   Add Milk → now it's milk coffee
+        -   Add Sugar → now it’s milk + sugar coffee
