@@ -1,0 +1,24 @@
+Definition:
+    -   The Strategy Pattern lets you choose how something should be done at runtime.
+    -   Instead of writing many if-else conditions, you define multiple ways (strategies) to do something, and pick the one you need.
+
+Why?:
+    -   To avoid complex if-else chains for different behaviors.
+    -   To allow the behavior to change dynamically at runtime without modifying the code.
+
+How to Implement?:
+    1.  Define an interface for the common behavior (e.g., Pay(amount)).
+    2.  Create separate structs for each way of doing the task (like UPI, Credit Card) and implement the interface.
+    3.  Create a client (processor) that takes the strategy as input.
+    4.  At runtime, pass in the strategy you want to use.
+
+Real-World Analogy:
+    1.  Payment Methods
+        -   You can pay with UPI, Credit Card, or Cash.
+        -   Each method has its own way of processing the payment.
+        -   You choose which one to use based on your situation.
+
+    2.  Navigation Apps
+        -   You can choose to navigate by Car, Bike, or Walk.
+        -   Each mode has its own route calculation and speed.
+        -   You select the mode based on your current need.
