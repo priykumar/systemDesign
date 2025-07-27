@@ -1,0 +1,26 @@
+Definition:
+    -   The Facade Pattern provides a simplified, high-level interface to a complex subsystem.
+    -   It hides the underlying complexity by combining multiple operations behind one method.
+
+Why?:
+    -   To make the system easier to use for clients.
+    -   To provide a single entry point to multiple systems.
+
+How to Implement?:
+    1. Identify the subsystems involved.
+        - Each has its own complex setup or functionality (TV, Lights, Speakers...).
+
+    2. Create a Facade struct(HomeTheaterFacade) that:
+        - Holds references to these subsystems.
+        - Offers one or a few methods that hide all the internal steps.
+
+    3. Use the Facade from your client code.
+
+Real-World Analogy:
+    1.  ATM Machine
+        -   Internally: Bank APIs, Card Reader, PIN Validator, Cash Dispenser
+        -   Facade: Press "Withdraw ₹1000" → All done behind the scenes
+
+    2.  Movie Night Button
+        -   Press one button → Lights dim, TV turns on, speakers play sound
+        -   You don't need to operate each device manually
