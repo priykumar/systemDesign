@@ -1,0 +1,25 @@
+Definition:
+    -   The Flyweight Pattern is used to reduce memory usage by sharing common parts of objects instead of creating duplicate copies.
+    -   Why create 1000 copies of the same thing when I can reuse one and just store what's different?
+
+
+Why?:
+    - You want to create lots of similar objects but avoid wasting memory.
+    - Instead of duplicating that shared data, store it once and reuse.
+
+How to Implement?:
+    1. Identify intrinsic and extrinsic data
+        - Intrinsic: shared by many objects (e.g., font, color)
+        - Extrinsic: varies per object (e.g., position)
+    2. Create a Flyweight class only for the intrinsic data
+    3. Create a Flyweight Factory
+        - Returns existing shared objects instead of creating new ones
+    4. Client code
+        - Calls the factory to get shared flyweights
+        - Passes extrinsic state when using the object
+
+Real-World Example:
+    -   Typing in a Word Processor
+        -   You type "AAA" in Arial font
+        -   Internally, the app stores one object for 'A' in Arial
+        -   Each typed A just stores the position, not the whole object
