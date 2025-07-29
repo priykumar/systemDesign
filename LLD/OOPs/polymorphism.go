@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// Polymorphism is the ability to present the same interface for different data types.
 type Shape interface {
 	Area() float64
 	Perimeter() float64
