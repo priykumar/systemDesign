@@ -53,5 +53,6 @@ func main() {
 	encapsulation_demo()
 	polymorphism()
 	abstraction()
-	inheritance()
+	composition()
+	not_inheritence()
 }

@@ -1,8 +1,7 @@
 package encapsulation
 
-// Encapsulation is defined as the wrapping up of data under a single unit
-// Encapsulation is exactly like having a simple switch that hides all the complex electrical work happening behind the scenes
-
+// Encapsulation means hiding the internal data and allowing controlled access to it through methods(getter and setter).
+// Its like a capsule that contains the data and methods to manipulate it, but hides the internal implementation details.
 type User struct {
 	Name     string // Public fields - direct access allowed
 	Email    string // Public fields - direct access allowed
