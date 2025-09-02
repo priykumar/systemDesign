@@ -5,36 +5,50 @@ package solid
 import "fmt"
 
 // DI Definition
-// High-level modules should not depend on low-level modules. Both should depend on abstractions
-type EmailSender_DI struct{}
+// High-level modules should not depend on low-level modules. Both should depend on abstractions (interface)
+type MySQLRepository struct{}
 
-func (e EmailSender_DI) Send(i Invoice) {
-	fmt.Printf("Sending email to %s\n", i.Customer)
+func (m *MySQLRepository) Save(data string) {
+    fmt.Println("Saving to MySQL:", data)
 }
 
-// BAD EXAMPLE of Dependency Injection (DI) //
-// Here InvoiceService depends directly on a concrete type: EmailSender_DI. This is tightly coupled
-// Suppose instead of sending emails, we want to send then text messages., then we need to modify the InvoiceService struct
-type B_InvoiceService struct {
-	emailSender EmailSender_DI
+type UserService struct {
+    repo *MySQLRepository
 }
 
-func (s B_InvoiceService) SendInvoice(i Invoice) {
-	// Tight coupling
-	s.emailSender.Send(i)
+func (u *UserService) CreateUser(name string) {
+    u.repo.Save(name) // tightly coupled to MySQL
 }
+
 
 // GOOD EXAMPLE of Dependency Injection (DI) //
-// G_InvoiceService uses an interface SendMessage, which allows it to depend on any type that implements SendMessage.
+// UserService is dependent on UserRepository(Abstraction/interface) rather than being dependent on MySQLRepository struct
 // This makes it flexible and open for extension without modifying the existing code.
-type SendMessage interface {
-	Send(i Invoice)
+// Abstraction
+type UserRepository interface {
+    Save(data string)
 }
 
-type G_InvoiceService struct {
-	mailer SendMessage
+// Low-level module
+type MySQLRepository struct{}
+
+func (m *MySQLRepository) Save(data string) {
+    fmt.Println("Saving to MySQL:", data)
 }
 
-func (s G_InvoiceService) SendInvoice(i Invoice) {
-	s.mailer.Send(i)
+// High-level module
+type UserService struct {
+    repo UserRepository // depends on abstraction
 }
+
+func (u *UserService) CreateUser(name string) {
+    u.repo.Save(name)
+}
+
+// Main wiring
+func main() {
+    mysqlRepo := &MySQLRepository{}
+    service := &UserService{repo: mysqlRepo}
+    service.CreateUser("Priyanshu")
+}
+
