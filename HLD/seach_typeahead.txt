@@ -4,7 +4,7 @@ Typeaheads refers to the suggestions that come up automatically as we search for
 
 Functional requirement/MVP:
 	1.	Number of suggestions to display: 5
-	2.	Minimum character should be type to show suggestion: 3
+	2.	Minimum character should be typep to show suggestion: 3
 	3. 	Strict prefix, i.e if “abc” is type then 5 suggestions with with “abc” as prefix will be shown
 	4.	Don’t bother about special characters
 
@@ -22,14 +22,14 @@ Non functional requirements:
 Estimation:
 	Let’s assume, no. of search queries lands in google per days: 10B
 	10% of 10B is new term —> 1B new queries per day
-	Average size of each query: 25 characters —> 40*1‎ = 40bytes per query —> 1B * 40 bytes = 40*10^9 ‎ = 40,00,00,00,000bytes = 40GB
+	Average size of each query: 40 characters —> 40*1‎ = 40bytes per query —> 1B * 40 bytes = 40*10^9 ‎ = 40,00,00,00,000bytes = 40GB
 
 	40GB per days -> 40 * 365 ‎ = 14,600GB per year ~ 15TB/year = 150TB in 10 years —> SHARDING IS NEEDED
 
 	
 
 	Assumed, 10B search happens every day out of that 1B is new terms
-	Total WRITE = 10B
+	Total WRITE = 10B (1B new term writes + Rest frequency update for existing term)
 		Each query has to update its frequency, hence write happens in each query
 	
 	Each query displays 5 suggestions, so total READ = 5*10B = 50B
@@ -56,7 +56,7 @@ Design:
 		b.	WRITE —> /updateFrequency —> When a frequency is updated for a term, then Top5Suggestions for each prefix of term need to be updated
 
 	
-		In above 2 approached Read is fast but write requires a lot of background work. Those background word can happen asynchronously. But the issue is 10B write is happening every days across several shards and on top of that performing such heavy write operations across shards for each search is not efficient. Need to reduce the write operations
+		In above 2 approaches, Read is fast but write requires a lot of background work. Those background word can happen asynchronously. But the issue is 10B write is happening every days across several shards and on top of that performing such heavy write operations across shards for each search is not efficient. Need to reduce the write operations
 
 
 	Approach 3: Threshold
