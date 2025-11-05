@@ -4,8 +4,8 @@ Typeaheads refers to the suggestions that come up automatically as we search for
 
 Functional requirement/MVP:
 	1.	Number of suggestions to display: 5
-	2.	Minimum character should be typep to show suggestion: 3
-	3. 	Strict prefix, i.e if “abc” is type then 5 suggestions with with “abc” as prefix will be shown
+	2.	Minimum character should be typed to show suggestion: 3
+	3. 	Strict prefix, i.e if “abc” is typed then 5 suggestions with “abc” as prefix will be shown
 	4.	Don’t bother about special characters
 
 	Extras:
@@ -60,7 +60,7 @@ Design:
 
 
 	Approach 3: Threshold
-		Above discussed both the approaches are fine, but the only is write.
+		Above discussed both the approaches are fine, but the only issue is write.
 
 		Lets have a separate hash map (for approach1, as approach2 already has Frequency map) to store the frequency of each term and update the trie or Top5Suggestions map only if frequency of that term crosses a certain threshold lets say 1000. Because we don’t care if frequency count increases by 10, 20. Once frequency of the term crosses the threshold update tries/Top5Suggestions and set that term frequency as 0
 
